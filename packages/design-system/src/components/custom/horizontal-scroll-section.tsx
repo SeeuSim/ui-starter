@@ -25,8 +25,8 @@ type HorizontalScrollSectionProps = PropsWithChildren<{
  */
 export const HorizontalScrollSection: FC<HorizontalScrollSectionProps> = ({
   children,
-  sectionHeight = '100vh',
-  translateYFactor = '300vh',
+  sectionHeight = 'h-screen',
+  translateYFactor = 'h-[300vh]',
   translateXFactor = '-50%',
 }) => {
   const horizontalSectionRef = useRef<HTMLDivElement>(null);
@@ -49,9 +49,9 @@ export const HorizontalScrollSection: FC<HorizontalScrollSectionProps> = ({
       ref={horizontalSectionRef}
       // The height value has to be a multiple of the screen height (more than 1)
       // The lower the multiple, the faster the scroll
-      className={cn('relative bg-background', `h-[${translateYFactor}]`)}
+      className={cn('relative bg-background', translateYFactor)}
     >
-      <div className={cn('sticky top-0 flex items-center overflow-hidden', `h-[${sectionHeight}]`)}>
+      <div className={cn('sticky top-0 flex items-center overflow-hidden', sectionHeight)}>
         <motion.div style={{ x }} className='flex h-full'>
           {children}
         </motion.div>
