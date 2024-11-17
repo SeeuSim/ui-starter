@@ -1,5 +1,6 @@
+import useWindowDimensions from "@/lib/hooks/use-window-dimensions";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 export const HorizontalScrollSection = () => {
   const horizontalSectionRef = useRef<HTMLDivElement>(null);
@@ -8,13 +9,19 @@ export const HorizontalScrollSection = () => {
     target: horizontalSectionRef,
   });
 
+  const { width: windowWidth } = useWindowDimensions();
+
+  const sectionWidth = useMemo(() => {
+    return horizontalSectionRef?.current?.getBoundingClientRect().width ?? null
+  }, [horizontalSectionRef]);
+
   const x = useTransform(
     scrollYProgress,
     [0, 1],
     // If you have 2 elements, translate the width so that the first element is entirely out of screen.
     // If you have 3 elements, translate the width so that the first 2 elements is out of screen.
     // So on and so forth.
-    ["0%", "-50%"],
+    ["0%", `${100 - (((windowWidth ?? 0) / (sectionWidth ?? 1)) * 100) }%`],
   );
   return (
     <section
