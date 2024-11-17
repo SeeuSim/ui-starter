@@ -1,4 +1,5 @@
-import { HorizontalScrollSection } from './components/custom/horizontal-scroll-section';
+import { HorizontalScrollSection } from '@/components/custom/horizontal-scroll-section';
+import { TimePicker } from '@/components/custom/time-picker';
 
 function App() {
   return (
@@ -12,8 +13,16 @@ function App() {
         </div>
       </section>
       <HorizontalScrollSection>
-        <div className='h-screen w-screen bg-yellow-300 grid place-items-center text-8xl font-bold'>
-          HSection 1
+        <div className='h-screen w-screen bg-yellow-300 grid place-items-center'>
+          <span className='text-8xl font-bold'>HSection 1</span>
+          <div className='flex space-y-2 flex-col'>
+            <TimePicker className='border-yellow-700 text-yellow-700 focus:ring-yellow-700' />
+            <TimePicker
+              className='border-yellow-700 text-yellow-700 focus:ring-yellow-700'
+              separatorClassName='translate-x-[-2px]'
+              is24h
+            />
+          </div>
         </div>
         <div className='h-screen w-screen bg-green-300 grid place-items-center text-8xl font-bold'>
           HSection 2
