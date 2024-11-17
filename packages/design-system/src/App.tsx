@@ -1,7 +1,10 @@
+import React from 'react';
+
 import { HorizontalScrollSection } from '@/components/custom/horizontal-scroll-section';
 import { TimePicker } from '@/components/custom/time-picker';
 
 function App() {
+  const [dateTime, setDateTime] = React.useState(new Date());
   return (
     <div>
       <section className=''>
@@ -20,6 +23,21 @@ function App() {
             <TimePicker
               className='border-yellow-700 text-yellow-700 focus:ring-yellow-700'
               separatorClassName='translate-x-[-2px]'
+              is24h
+            />
+            <TimePicker
+              className='border-yellow-700 text-yellow-700 focus:ring-yellow-700 w-min'
+              is24h
+            />
+            <TimePicker
+              time={dateTime}
+              onTimeChange={setDateTime}
+              className='border-yellow-700 text-yellow-700 focus:ring-yellow-700 w-min'
+            />
+            <TimePicker
+              time={dateTime}
+              onTimeChange={setDateTime}
+              className='border-yellow-700 text-yellow-700 focus:ring-yellow-700 w-min'
               is24h
             />
           </div>

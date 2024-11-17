@@ -11,7 +11,7 @@ const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
 
 type CustomSelectTriggerProps = {
-  hideIcon?: boolean;
+  hideicon?: 'true' | 'false';
 };
 
 const SelectTrigger = React.forwardRef<
@@ -27,7 +27,7 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    {!props.hideIcon && (
+    {props.hideicon !== 'true' && (
       <SelectPrimitive.Icon asChild>
         <ChevronDown className='h-4 w-4 opacity-50' />
       </SelectPrimitive.Icon>

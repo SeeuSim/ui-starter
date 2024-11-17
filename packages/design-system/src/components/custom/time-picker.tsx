@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
@@ -7,21 +7,66 @@ type ITimePickerProps = {
   is24h?: boolean;
   // To style the colons if an alternate parent width is set
   separatorClassName?: string;
+  time?: Date;
+  onTimeChange?: React.Dispatch<React.SetStateAction<Date>>;
 };
 
 export const TimePicker = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & ITimePickerProps
->(({ className, is24h, separatorClassName, ...props }, ref) => {
-  const [hours, setHours] = React.useState(is24h ? 0 : 12);
-  const [minutes, setMinutes] = React.useState(0);
-  const [seconds, setSeconds] = React.useState(0);
-  const [amPm, setAmPm] = React.useState('AM');
+>(({ className, is24h, time, onTimeChange, separatorClassName, ...props }, ref) => {
+  const originalHours = time
+    ? is24h
+      ? time.getHours() // Just take the raw time value
+      : time.getHours() > 12
+        ? time.getHours() - 12 // 1pm to 12am (24pm)
+        : time.getHours() || 12 // 1 - 12, or 12 for 0.
+    : is24h
+      ? 0
+      : 12;
+
+  const [hours, setHours] = React.useState(originalHours);
+  const [minutes, setMinutes] = React.useState(time?.getMinutes() ?? 0);
+  const [seconds, setSeconds] = React.useState(time?.getSeconds() ?? 0);
+  const [amPm, setAmPm] = React.useState(time && time.getHours() >= 12 ? 'PM' : 'AM');
+
+  const hourRef = React.useRef<HTMLButtonElement>(null);
+  const minuteRef = React.useRef<HTMLButtonElement>(null);
+  const secondRef = React.useRef<HTMLButtonElement>(null);
+  const amPmRef = React.useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    console.log('firing');
+    if (onTimeChange) {
+      onTimeChange((dateTime) => {
+        const hoursIn24h = is24h ? hours : amPm === 'AM' ? hours : (hours + 12) % 24;
+        dateTime.setHours(hoursIn24h, minutes, seconds, 0);
+        return dateTime;
+      });
+    }
+  }, [hours, minutes, seconds, amPm, onTimeChange, is24h]);
+
+  useEffect(() => {
+    if (time) {
+      const hourState = time.getHours();
+      setHours(is24h ? hourState : hourState > 12 ? hourState - 12 : hourState);
+      setMinutes(time.getMinutes());
+      setSeconds(time.getSeconds());
+      setAmPm(hourState >= 12 ? 'PM' : 'AM');
+    }
+  }, [time]);
+
   return (
     <div {...props} className={cn(className, 'flex flex-row items-center')} ref={ref}>
       <Select value={hours.toString()} onValueChange={(value) => setHours(Number.parseInt(value))}>
         <SelectTrigger
-          hideIcon
+          ref={hourRef}
+          hideicon='true'
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowRight') {
+              minuteRef.current?.focus();
+            }
+          }}
           className={cn(
             'focus:border-0 focus:ring-2 relative',
             className,
@@ -41,7 +86,7 @@ export const TimePicker = React.forwardRef<
         <SelectContent className='max-h-[300px]'>
           {Array(is24h ? 24 : 12)
             .fill(0)
-            .map((_v, i) => (is24h ? i : i + 1))
+            .map((_v, i) => (is24h ? i : i + 1)) // 24h: 00 - 23, 12h: 1 - 12
             .map((v, i) => (
               <SelectItem value={String(v)} key={i}>
                 {v.toString().padStart(2, '0')}
@@ -54,7 +99,15 @@ export const TimePicker = React.forwardRef<
         onValueChange={(value) => setMinutes(Number.parseInt(value))}
       >
         <SelectTrigger
-          hideIcon
+          ref={minuteRef}
+          hideicon='true'
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowLeft') {
+              hourRef.current?.focus();
+            } else if (event.key === 'ArrowRight') {
+              secondRef.current?.focus();
+            }
+          }}
           className={cn(
             'focus:border-0 focus:ring-2 relative',
             className,
@@ -87,7 +140,15 @@ export const TimePicker = React.forwardRef<
         onValueChange={(value) => setSeconds(Number.parseInt(value))}
       >
         <SelectTrigger
-          hideIcon
+          ref={secondRef}
+          hideicon='true'
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowLeft') {
+              minuteRef.current?.focus();
+            } else if (event.key === 'ArrowRight' && !is24h) {
+              amPmRef.current?.focus();
+            }
+          }}
           className={cn(
             'min-h-none h-min shadow-none focus:border-0 focus:ring-2',
             className,
@@ -112,7 +173,13 @@ export const TimePicker = React.forwardRef<
       {!is24h && (
         <Select value={amPm} onValueChange={setAmPm}>
           <SelectTrigger
-            hideIcon
+            ref={amPmRef}
+            onKeyDown={(event) => {
+              if (event.key === 'ArrowLeft') {
+                secondRef.current?.focus();
+              }
+            }}
+            hideicon='true'
             className={cn(
               'focus:border-0 focus:ring-2',
               className,
