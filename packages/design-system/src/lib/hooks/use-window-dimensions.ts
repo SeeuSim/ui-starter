@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function getWindowDimensions() {
   if (window !== undefined) {
     const { innerWidth: width, innerHeight: height } = window;
     return {
       width,
-      height
+      height,
     };
-  } 
+  }
   return {
     height: null,
-    width: null
-  }
+    width: null,
+  };
 }
 
 export default function useWindowDimensions() {

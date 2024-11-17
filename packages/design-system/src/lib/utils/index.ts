@@ -1,1 +1,1 @@
-export * from './class-merge'
+export * from './class-merge';
