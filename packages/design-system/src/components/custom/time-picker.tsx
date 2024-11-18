@@ -8,7 +8,7 @@ type ITimePickerProps = {
   // To style the colons if an alternate parent width is set
   separatorClassName?: string;
   time?: Date;
-  onTimeChange?: React.Dispatch<React.SetStateAction<Date>>;
+  onTimeChange?: (date: Date) => void;
 };
 
 export const TimePicker = React.forwardRef<
@@ -36,15 +36,14 @@ export const TimePicker = React.forwardRef<
   const amPmRef = React.useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    console.log('firing');
-    if (onTimeChange) {
-      onTimeChange((dateTime) => {
-        const hoursIn24h = is24h ? hours : amPm === 'AM' ? hours : (hours + 12) % 24;
-        dateTime.setHours(hoursIn24h, minutes, seconds, 0);
-        return dateTime;
-      });
+    if (onTimeChange && time) {
+      const actTime = new Date(time);
+      const hoursIn24h = is24h ? hours : amPm === 'AM' ? hours : (hours + 12) % 24;
+      actTime.setHours(hoursIn24h, minutes, seconds, 0);
+      onTimeChange(actTime);
     }
-  }, [hours, minutes, seconds, amPm, onTimeChange, is24h]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hours, minutes, seconds, amPm]);
 
   useEffect(() => {
     if (time) {
@@ -54,6 +53,7 @@ export const TimePicker = React.forwardRef<
       setSeconds(time.getSeconds());
       setAmPm(hourState >= 12 ? 'PM' : 'AM');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
 
   return (

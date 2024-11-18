@@ -2,6 +2,7 @@ import React from 'react';
 
 import { HorizontalScrollSection } from '@/components/custom/horizontal-scroll-section';
 import { TimePicker } from '@/components/custom/time-picker';
+import { DatePickerWithRange } from '@/components/ui/date-range-picker';
 
 function App() {
   const [dateTime, setDateTime] = React.useState(new Date());
@@ -41,6 +42,7 @@ function App() {
               is24h
             />
           </div>
+          <DatePickerWithRange className='' />
         </div>
         <div className='h-screen w-screen bg-green-300 grid place-items-center text-8xl font-bold'>
           HSection 2

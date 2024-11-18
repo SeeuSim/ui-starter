@@ -27,6 +27,15 @@ export default tseslint.config(
       ...prettier.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       ...tailwind.configs['flat/recommended'].rules,
+      "@typescript-eslint/no-unused-expressions": [
+        "warn",
+        {
+          allowShortCircuit: true,
+          allowTernary: true,
+        },
+      ],
+// "@typescript-eslint/dot-notation": ["error", { allowKeywords: true }],
+"@typescript-eslint/no-empty-function": ["error", { allow: ["arrowFunctions"] }],
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'simple-import-sort/imports': [
         'error',
