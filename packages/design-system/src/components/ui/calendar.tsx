@@ -52,9 +52,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       }}
       components={{
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        IconLeft: ({ ...props }) => <ChevronLeft className='h-4 w-4' />,
+        IconLeft: (_props) => <ChevronLeft className='h-4 w-4' />,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        IconRight: ({ ...props }) => <ChevronRight className='h-4 w-4' />,
+        IconRight: (_props) => <ChevronRight className='h-4 w-4' />,
       }}
       {...props}
     />
