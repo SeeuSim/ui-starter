@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@repo/design-system/components/ui/table";
+import { cn } from "@repo/design-system/lib/utils";
 
 import { FacetFilter } from "./faceted-filter";
 import { DataTablePagination } from "./pagination";
@@ -94,14 +95,26 @@ export function DataTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="bg-background border-y border-x-0 first:rounded-tl-lg first:border-l last:border-r last:rounded-tr-lg z-[100]"
+                    className={cn(
+                      "bg-background p-0 z-40",
+                      "[&:first-child>div]:rounded-tl-lg [&:first-child>div]:border-l",
+                      "[&:last-child>div]:border-r [&:last-child>div]:rounded-tr-lg",
+                      "[&:has([role=checkbox])>div]:pr-0",
+                    )}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                    <div
+                      className={cn(
+                        "size-full border-y border-x-0 px-2",
+                        "grid items-center",
+                      )}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </div>
                   </TableHead>
                 );
               })}
