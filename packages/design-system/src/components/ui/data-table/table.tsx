@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,8 +11,8 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from '@tanstack/react-table';
-import * as React from 'react';
+} from "@tanstack/react-table";
+import * as React from "react";
 
 import {
   Table,
@@ -23,11 +21,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@repo/design-system/components/ui/table";
 
-import { FacetFilter } from './faceted-filter';
-import { DataTablePagination } from './pagination';
-import { DataTableToolbar } from './toolbar';
+import { FacetFilter } from "./faceted-filter";
+import { DataTablePagination } from "./pagination";
+import { DataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,8 +39,11 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -68,47 +69,64 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className='size-full flex flex-col'>
-      <div className=''>
-        <Table className=''>
-          <TableHeader className='sticky top-0'>
+    <div className="size-full flex flex-col">
+      <div className="">
+        <Table className="">
+          <TableHeader className="sticky top-0">
             <DataTableToolbar
               table={table}
               facetFilters={facetFilters}
-              numColumns={columns.length}
+              colSpan={columns.length}
             />
 
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                className='border-t rounded-t-lg border-x overflow-clip'
+                className="border-t rounded-t-lg border-x overflow-clip"
                 key={headerGroup.id}
               >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} colSpan={header.colSpan} className=''>
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className=""
+                    >
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='border-x'>
+          <TableBody className="border-x">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow className='' key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow
+                  className=""
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>

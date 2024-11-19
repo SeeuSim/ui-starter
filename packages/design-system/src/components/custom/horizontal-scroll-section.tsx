@@ -1,7 +1,7 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { type FC, type PropsWithChildren, useRef } from 'react';
+import { motion, useScroll, useTransform } from "framer-motion";
+import { type FC, type PropsWithChildren, useRef } from "react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@repo/design-system/lib/utils";
 
 type HorizontalScrollSectionProps = PropsWithChildren<{
   translateXFactor?: string;
@@ -25,9 +25,9 @@ type HorizontalScrollSectionProps = PropsWithChildren<{
  */
 export const HorizontalScrollSection: FC<HorizontalScrollSectionProps> = ({
   children,
-  sectionHeight = 'h-screen',
-  translateYFactor = 'h-[300vh]',
-  translateXFactor = '-50%',
+  sectionHeight = "h-screen",
+  translateYFactor = "h-[300vh]",
+  translateXFactor = "-50%",
 }) => {
   const horizontalSectionRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +41,7 @@ export const HorizontalScrollSection: FC<HorizontalScrollSectionProps> = ({
     // If you have 2 elements, translate the width so that the first element is entirely out of screen.
     // If you have 3 elements, translate the width so that the first 2 elements is out of screen.
     // So on and so forth.
-    ['0%', translateXFactor]
+    ["0%", translateXFactor],
   );
 
   return (
@@ -49,10 +49,15 @@ export const HorizontalScrollSection: FC<HorizontalScrollSectionProps> = ({
       ref={horizontalSectionRef}
       // The height value has to be a multiple of the screen height (more than 1)
       // The lower the multiple, the faster the scroll
-      className={cn('relative bg-background', translateYFactor)}
+      className={cn("relative bg-background", translateYFactor)}
     >
-      <div className={cn('sticky top-0 flex items-center overflow-hidden', sectionHeight)}>
-        <motion.div style={{ x }} className='flex h-full'>
+      <div
+        className={cn(
+          "sticky top-0 flex items-center overflow-hidden",
+          sectionHeight,
+        )}
+      >
+        <motion.div style={{ x }} className="flex h-full">
           {children}
         </motion.div>
       </div>
