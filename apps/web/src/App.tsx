@@ -1,7 +1,9 @@
+import React from "react";
+
 import { DatePickerWithRange } from "@repo/design-system/components/custom/date-range-picker";
 import { HorizontalScrollSection } from "@repo/design-system/components/custom/horizontal-scroll-section";
 import { TimePicker } from "@repo/design-system/components/custom/time-picker";
-import React from "react";
+
 import { TableDemo } from "@/components/blocks/table-demo";
 
 function App() {
