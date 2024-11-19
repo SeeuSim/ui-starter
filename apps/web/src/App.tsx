@@ -62,7 +62,7 @@ function App() {
           <span className="text-center text-8xl font-bold">VSection 5</span>
           <div
             id="table-container"
-            className="flex flex-1 p-4 overflow-auto max-w-screen-xl min-h-[250px] mx-auto"
+            className="flex flex-1 overflow-auto pr-4 max-w-screen-xl min-h-[250px] mx-auto"
           >
             <TableDemo />
           </div>

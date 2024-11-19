@@ -158,11 +158,11 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
         <TableFooter className="sticky bottom-0 z-40 p-0 bg-inherit border-none border-t-0">
-          <tr
+          {/* <TableRow
             // To be inserted only if the parent container has padding on bottom
             id="padding-blocker-bottom"
             className="absolute w-full h-4 translate-y-[66px] z-10 bg-background"
-          />
+          /> */}
           <TableRow className="bg-transparent hover:bg-transparent border-none border-b-0 p-0">
             <TableCell
               className="bg-background hover:bg-background p-0"
