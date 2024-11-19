@@ -58,14 +58,13 @@ function App() {
         <div className="h-screen bg-indigo-300 grid place-items-center text-8xl font-bold">
           VSection 4
         </div>
-        <div className="bg-background h-screen grid max-h-screen overflow-clip">
-          <div className="size-full flex flex-col">
-            <span className="flex text-8xl font-bold mx-auto text-center pt-4">
-              VSection 5
-            </span>
-            <div className="pb-4 px-4 flex flex-1 overflow-clip">
-              <TableDemo />
-            </div>
+        <div className="size-full h-screen flex flex-col p-4 gap-4 basis-0 overflow-hidden max-h-screen">
+          <span className="text-center text-8xl font-bold">VSection 5</span>
+          <div
+            id="table-container"
+            className="flex flex-1 p-4 overflow-auto max-h-[calc(100vh-144px)] max-w-[calc(min(100vw-32px,1280px))] mx-auto"
+          >
+            <TableDemo />
           </div>
         </div>
       </section>

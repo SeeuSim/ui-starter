@@ -1,6 +1,6 @@
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -8,9 +8,9 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import * as React from "react";
 
@@ -18,6 +18,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -69,72 +70,84 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="size-full flex flex-col">
-      <div className="">
-        <Table className="">
-          <TableHeader className="sticky top-0">
-            <DataTableToolbar
-              table={table}
-              facetFilters={facetFilters}
-              colSpan={columns.length}
-            />
+    <div className="size-full relative flex flex-col">
+      <Table className="border-none border-separate border-spacing-0">
+        <TableHeader className="sticky top-0 bg-background bg-opacity-100 z-40 [&_tr]:border-b-0">
+          <tr
+            id="padding-blocker-top"
+            className="absolute w-full h-4 translate-y-[-16px] z-10 bg-background"
+          />
+          <DataTableToolbar
+            table={table}
+            facetFilters={facetFilters}
+            colSpan={columns.length}
+          />
 
-            {table.getHeaderGroups().map((headerGroup) => (
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow
+              className="border border-t border-border bg-background bg-opacity-100 rounded-t-lg z-40"
+              key={headerGroup.id}
+            >
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="bg-background border-y border-x-0 first:rounded-tl-lg first:border-l last:border-r last:rounded-tr-lg z-[100]"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody className="[&_tr:last-child]:border [&_tr:last-child]:border-b-0 z-0">
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
               <TableRow
-                className="border-t rounded-t-lg border-x overflow-clip"
-                key={headerGroup.id}
+                className="[&>td]:border-b [&:last-child>td]:border-b-0 border-b-0"
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
               >
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      className=""
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    className="z-0 first:border-l last:border-r"
+                    key={cell.id}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody className="border-x">
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  className=""
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <DataTablePagination table={table} />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter className="sticky bottom-0 z-40 p-0 bg-inherit border-none border-t-0">
+          <tr
+            id="padding-blocker-bottom"
+            className="absolute w-full h-4 translate-y-[66px] z-10 bg-background"
+          />
+          <TableRow className="bg-transparent hover:bg-transparent border-none border-b-0 p-0">
+            <TableCell
+              className="bg-background hover:bg-background p-0"
+              colSpan={columns.length}
+            >
+              <DataTablePagination table={table} />
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
     </div>
   );
 }

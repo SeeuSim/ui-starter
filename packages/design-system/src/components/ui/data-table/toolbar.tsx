@@ -23,9 +23,12 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <TableRow className="">
-      <TableCell colSpan={colSpan} className="hover:bg-background p-0 pb-4">
-        <div className="w-full flex">
+    <TableRow className="hover:bg-background bg-background z-40 border-b-0">
+      <TableCell
+        colSpan={colSpan}
+        className="bg-background hover:bg-background p-0 pb-4"
+      >
+        <div className="w-full bg-background flex">
           <div className="flex w-full items-center gap-2">
             <Input
               placeholder="Filter tasks..."
