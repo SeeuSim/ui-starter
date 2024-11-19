@@ -31,13 +31,19 @@ import { DataTableToolbar } from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  facetFilters?: Array<FacetFilter>;
+  toolbarConfig: {
+    searchFilter?: {
+      accessorKey: string;
+      placeholderText: string;
+    };
+    facetFilters?: Array<FacetFilter>;
+  };
   data: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  facetFilters,
+  toolbarConfig: { searchFilter, facetFilters },
   data,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
@@ -73,7 +79,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="size-full relative flex flex-col">
       <Table className="border-none border-separate border-spacing-0">
-        <TableHeader className="sticky top-0 bg-background bg-opacity-100 z-40 [&_tr]:border-b-0">
+        <TableHeader className="sticky top-0 bg-background bg-opacity-100 z-30 [&_tr]:border-b-0">
           <tr
             // To be inserted only if the parent container has padding on bottom
             id="padding-blocker-top"
@@ -81,13 +87,14 @@ export function DataTable<TData, TValue>({
           />
           <DataTableToolbar
             table={table}
+            searchFilter={searchFilter}
             facetFilters={facetFilters}
             colSpan={columns.length}
           />
 
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
-              className="border border-t border-border bg-background bg-opacity-100 rounded-t-lg z-40"
+              className="border border-t border-border bg-background bg-opacity-100 rounded-t-lg z-30"
               key={headerGroup.id}
             >
               {headerGroup.headers.map((header) => {
@@ -96,7 +103,7 @@ export function DataTable<TData, TValue>({
                     key={header.id}
                     colSpan={header.colSpan}
                     className={cn(
-                      "bg-background p-0 z-40",
+                      "bg-background p-0 z-30",
                       "[&:first-child>div]:rounded-tl-lg [&:first-child>div]:border-l",
                       "[&:last-child>div]:border-r [&:last-child>div]:rounded-tr-lg",
                       "[&:has([role=checkbox])>div]:pr-0",
@@ -141,7 +148,10 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center border-x"
+              >
                 No results.
               </TableCell>
             </TableRow>

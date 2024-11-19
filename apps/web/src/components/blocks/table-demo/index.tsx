@@ -11,6 +11,16 @@ export const TableDemo = () => {
     return getData();
   }, []);
   return (
-    <DataTable columns={columns} data={data} facetFilters={facetFilters} />
+    <DataTable
+      columns={columns}
+      data={data}
+      toolbarConfig={{
+        facetFilters,
+        searchFilter: {
+          accessorKey: "title",
+          placeholderText: "Filter tasks...",
+        },
+      }}
+    />
   );
 };
