@@ -74,6 +74,7 @@ export function DataTable<TData, TValue>({
       <Table className="border-none border-separate border-spacing-0">
         <TableHeader className="sticky top-0 bg-background bg-opacity-100 z-40 [&_tr]:border-b-0">
           <tr
+            // To be inserted only if the parent container has padding on bottom
             id="padding-blocker-top"
             className="absolute w-full h-4 translate-y-[-16px] z-10 bg-background"
           />
@@ -135,6 +136,7 @@ export function DataTable<TData, TValue>({
         </TableBody>
         <TableFooter className="sticky bottom-0 z-40 p-0 bg-inherit border-none border-t-0">
           <tr
+            // To be inserted only if the parent container has padding on bottom
             id="padding-blocker-bottom"
             className="absolute w-full h-4 translate-y-[66px] z-10 bg-background"
           />
