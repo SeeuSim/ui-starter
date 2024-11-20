@@ -59,9 +59,9 @@ function Calendar({
       }}
       components={{
         /* eslint-disable @typescript-eslint/no-unused-vars */
-        // @ts-expect-error
+        // @ts-expect-error Inserted to allow building despite props unused
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        // @ts-expect-error
+        // @ts-expect-error Inserted to allow building despite props unused
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
         /* eslint-enable @typescript-eslint/no-unused-vars */
       }}

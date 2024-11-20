@@ -4,7 +4,8 @@
     "build": {
       "dependsOn": ["^check-types", "^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "env": ["PORT"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]

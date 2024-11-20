@@ -71,17 +71,17 @@ module.exports = tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
-      'simple-import-sort/imports': [
-        'error',
+      "simple-import-sort/imports": [
+        "error",
         {
           groups: [
             [
-              '^(?:os|path|http|fs|crypto|util|events|stream|url|zlib|querystring|tls|dgram|net|dns|child_process|cluster|readline|vm|assert|buffer|process|timers)(/.*)?$',
+              "^(?:os|path|http|fs|crypto|util|events|stream|url|zlib|querystring|tls|dgram|net|dns|child_process|cluster|readline|vm|assert|buffer|process|timers)(/.*)?$",
             ],
-            ['^(?!(@(repo)*/|\\.\\./|\\./))'],
-            ['^@repo/'],
-            ['^@/'],
-            ['^(?:\\./|\\.\\./|\\.)'],
+            ["^(?!(@(repo)*/|\\.\\./|\\./))"],
+            ["^@repo/"],
+            ["^@/"],
+            ["^(?:\\./|\\.\\./|\\.)"],
           ],
         },
       ],
