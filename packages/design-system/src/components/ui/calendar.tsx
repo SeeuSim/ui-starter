@@ -58,8 +58,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
+        /* eslint-disable @typescript-eslint/no-unused-vars */
+        // @ts-expect-error
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
+        // @ts-expect-error
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        /* eslint-enable @typescript-eslint/no-unused-vars */
       }}
       {...props}
     />
