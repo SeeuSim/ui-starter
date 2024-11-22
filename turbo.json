@@ -5,7 +5,14 @@
       "dependsOn": ["^check-types", "^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"],
-      "env": ["PORT"]
+      "env": [
+        "PORT",
+        "EXPRESS_DB_HOST",
+        "EXPRESS_DB_PORT",
+        "POSTGRES_DB",
+        "POSTGRES_USER",
+        "POSTGRES_PASSWORD"
+      ]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
