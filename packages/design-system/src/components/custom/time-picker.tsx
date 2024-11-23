@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import {
   Select,
@@ -16,6 +16,20 @@ type ITimePickerProps = {
   onTimeChange?: (date: Date) => void;
 };
 
+const _getHours = (time?: Date, is24h?: boolean) => {
+  if (!time) {
+    return is24h ? 0 : 12;
+  }
+  const hours = time.getHours();
+  return is24h
+    ? hours // raw value
+    : hours > 12
+      ? hours - 12
+      : hours === 0
+        ? 12
+        : hours;
+};
+
 export const TimePicker = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & ITimePickerProps
@@ -24,15 +38,8 @@ export const TimePicker = React.forwardRef<
     { className, is24h, time, onTimeChange, separatorClassName, ...props },
     ref,
   ) => {
-    const originalHours = time
-      ? is24h
-        ? time.getHours() // Just take the raw time value
-        : time.getHours() > 12
-          ? time.getHours() - 12 // 1pm to 12am (24pm)
-          : time.getHours() || 12 // 1 - 12, or 12 for 0.
-      : is24h
-        ? 0
-        : 12;
+    const getHours = useCallback(_getHours, [!!time, !!is24h]);
+    const originalHours = getHours(time, is24h);
 
     const [hours, setHours] = React.useState(originalHours);
     const [minutes, setMinutes] = React.useState(time?.getMinutes() ?? 0);
@@ -97,7 +104,9 @@ export const TimePicker = React.forwardRef<
               "min-h-none h-min py-2 pl-3 pr-1 border-r-0 rounded-none rounded-l-lg shadow-none",
             )}
           >
-            <span className="">{hours.toString().padStart(2, "0")}</span>
+            <span className="">
+              {(is24h || hours !== 0 ? hours : 12).toString().padStart(2, "0")}
+            </span>
             <span
               className={cn(
                 "absolute top-0 bottom-0 right-0 translate-x-0.5 translate-y-[7px] text-sm",
@@ -112,7 +121,10 @@ export const TimePicker = React.forwardRef<
               .fill(0)
               .map((_v, i) => (is24h ? i : i + 1)) // 24h: 00 - 23, 12h: 1 - 12
               .map((v, i) => (
-                <SelectItem value={String(v)} key={i}>
+                <SelectItem
+                  value={String(is24h ? v : v === 12 ? 0 : v)}
+                  key={i}
+                >
                   {v.toString().padStart(2, "0")}
                 </SelectItem>
               ))}
