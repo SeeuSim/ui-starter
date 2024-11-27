@@ -4,8 +4,9 @@
     "build": {
       "dependsOn": ["^check-types", "^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"],
+      "outputs": ["dist/**", "build/**"],
       "env": [
+        "DEV",
         "PORT",
         "EXPRESS_DB_HOST",
         "EXPRESS_DB_PORT",
@@ -18,7 +19,10 @@
       "dependsOn": ["^check-types"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "env": [
+        "DEV"
+      ]
     },
     "dev": {
       "cache": false,

@@ -4,6 +4,7 @@ export default [
   {
     ignores: [
       "build/**",
+      ".react-router/**",
       ".turbo/**",
       "node_modules/**"
     ]
