@@ -21,7 +21,13 @@
     "lint": {
       "dependsOn": ["^lint"],
       "env": [
-        "DEV"
+        "DEV",
+        "PORT",
+        "EXPRESS_DB_HOST",
+        "EXPRESS_DB_PORT",
+        "POSTGRES_DB",
+        "POSTGRES_USER",
+        "POSTGRES_PASSWORD"
       ]
     },
     "dev": {
