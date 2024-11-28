@@ -2,9 +2,18 @@ import type { Config } from "tailwindcss";
 
 import baseConfig from "@repo/design-system/tailwind.config";
 
+const projectContentPath = "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}";
+const originalContentConfig = baseConfig.content;
+const content = Array.isArray(originalContentConfig)
+  ? [...originalContentConfig, projectContentPath]
+  : {
+      ...originalContentConfig,
+      files: [...originalContentConfig.files, projectContentPath],
+    };
+
 export default {
   ...baseConfig,
-  content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
+  content,
   theme: {
     ...baseConfig.theme,
     extend: {
